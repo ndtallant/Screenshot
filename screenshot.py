@@ -68,5 +68,27 @@ class ScreenShotter:
         logging.info(message)
 
 if __name__ == "__main__":
-    shotter = ScreenShotter('big_websites.txt')
+
+    import argparse
+    parser = argparse.ArgumentParser()
+
+    ### Command line arguments.
+    parser.add_argument('--start_position',
+        help='The line in the urls file to start on. Default is 0.')
+    parser.add_argument('--max_time',
+        help='The max timeout rate for a url in seconds. Default is 10.')
+    parser.add_argument('--ads',
+        help='True for ads, False for no ads. Defualt is False.')
+    parser.add_argument('--fullscreen',
+        help='True for fullscreen, False for no fullscreen. Defualt is False.')
+    args = parser.parse_args()
+
+    ### Make args a dictionary to pass easily.
+    dict_args = {}
+    for arg in ['ads', 'fullscreen', 'max_time', 'start_position']:
+        if getattr(args, arg):
+            dict_args[arg] = getattr(args, arg)
+
+    ### Init and run.
+    shotter = ScreenShotter('little_websites.txt', **dict_args)
     shotter.run()
