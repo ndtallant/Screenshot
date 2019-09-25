@@ -1,0 +1,10 @@
+facebook.com
+google.com
+amazon.com
+youtube.com
+yelp.com
+wikipedia.com
+twitter.com
+fandom.com
+quizlet.com
+giphy.com
