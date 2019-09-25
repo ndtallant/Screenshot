@@ -5,8 +5,6 @@ import logging
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 
-
-
 class ScreenShotter:
 
     def __init__(self, urls, start_position=0, max_time=10, ads=False, fullscreen=False):
@@ -90,5 +88,5 @@ if __name__ == "__main__":
             dict_args[arg] = getattr(args, arg)
 
     ### Init and run.
-    shotter = ScreenShotter('big_websites.txt', **dict_args)
+    shotter = ScreenShotter('little_websites.txt', **dict_args)
     shotter.run()
