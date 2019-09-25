@@ -1,12 +1,22 @@
 import os
 import re
 import time
+import logging
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
+
+
 
 class ScreenShotter:
 
     def __init__(self, urls, start_position=0, max_time=10, ads=False, fullscreen=False):
+
+        logging.basicConfig(filename='collection.log',
+                            filemode='w',
+                            format='%(asctime)s - %(message)s',
+                            level=logging.INFO)
+        self.plog('Screenshot tool initialized.')
+
         self.urls = self.filter_urls(self.read_file(urls)[start_position:])
 
         if ads:
@@ -16,10 +26,12 @@ class ScreenShotter:
             ffprofile.add_extension('adblock_plus-3.6.3-an+fx.xpi')
             ffprofile.set_preference("extensions.adblockplus.currentVersion", "3.6.3")
             self.driver = webdriver.Firefox(ffprofile)
+            self.plog("ADBLOCK Installed")
 
         self.driver.set_page_load_timeout(max_time)
         if fullscreen:
             self.driver.fullscreen_window()
+            self.plog("FULLSCREEN Set")
 
     def read_file(self, f):
         '''Returns a list of urls from a text file or urls.'''
@@ -42,14 +54,19 @@ class ScreenShotter:
             if name + '.png' not in os.listdir('images'):
                 driver.get('http://'+url)
                 driver.save_screenshot(f'images/{name}.png')
-                print("Saved:", url)
+                self.plog(f'Saved: {url}')
             else:
-                print("Already collected:", url)
+                self.plog(f'Already collected: {url}')
         except TimeoutException:
-            print("Timed out:", url)
+            self.plog(f'Timed out: {url}')
         except Exception as e:
-            print("Unkown error:", e, url)
+            self.plog(f'Error {e}: {url}')
+
+    def plog(self, message):
+        '''Prints and logs.'''
+        print(message)
+        logging.info(message)
 
 if __name__ == "__main__":
-    shotter = ScreenShotter('little_websites.txt')
+    shotter = ScreenShotter('big_websites.txt')
     shotter.run()
