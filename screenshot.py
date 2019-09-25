@@ -17,7 +17,7 @@ class ScreenShotter:
                             level=logging.INFO)
         self.plog('Screenshot tool initialized.')
 
-        self.urls = self.filter_urls(self.read_file(urls)[start_position:])
+        self.urls = self.filter_urls(self.read_file(urls)[int(start_position):])
 
         if ads:
             self.driver = webdriver.Firefox()
@@ -90,5 +90,5 @@ if __name__ == "__main__":
             dict_args[arg] = getattr(args, arg)
 
     ### Init and run.
-    shotter = ScreenShotter('little_websites.txt', **dict_args)
+    shotter = ScreenShotter('big_websites.txt', **dict_args)
     shotter.run()
