@@ -26,7 +26,7 @@ class ScreenShotter:
             self.driver = webdriver.Firefox(ffprofile)
             self.plog("ADBLOCK Installed")
 
-        self.driver.set_page_load_timeout(max_time)
+        self.driver.set_page_load_timeout(int(max_time))
         if fullscreen:
             self.driver.fullscreen_window()
             self.plog("FULLSCREEN Set")
